@@ -44,3 +44,34 @@ job
 # now R will display the labels 'lecturer' and 'student', however
 # if you ask R for the class of the data, it will say INT
 typeof(job)
+# Now put all data in a frame
+jobAndBirth <- data.frame(name, birth_date, job)
+jobAndBirth
+# 3.6 importing data
+# get your current directory
+getwd()
+# can also set a directory with setwd()
+setwd("/home/nick/utalca/estadistica_con_R/data")
+getwd()
+# now lets get data file
+dat <- read.delim(file = "facebook_friends_1.txt")
+dat
+colnames(dat) <- c('friends')
+dat
+dat2 <- read.csv("facebook_friends_1.csv", header = FALSE)
+dat2
+# 3.7
+# Uno de los aspectos fundamentales de esta manipulación es la selección 
+# de datos. Primero, importemos alguna base de datos.
+lectData <- read.csv('lecturer_data.csv')
+lectData
+lectData$job <- factor(lectData$job,
+                      levels = c(1:2),
+                      labels = c('Lecturer', 'Student'))
+lectData
+onlyLecturer <- lectData[lectData$job == 'Lecturer',]
+# the comma is required after lecturer
+onlyLecturer
+LecturersThatDrinkLeast <- onlyLecturer[onlyLecturer$alcohol <= 15,]
+LecturersThatDrinkLeast
+# 3.8 Transform data
