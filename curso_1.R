@@ -112,3 +112,16 @@ orderedData
 
 wideData <- cast(restructData, Person + Gender ~ SatisfType, value = "Values")
 head(wideData)
+
+# 3.9 Exporting Data
+write.table(LecturersThatDrinkLeast, "datos_exportados.txt", sep = "\t")
+
+# 3.10 Pactice
+library(ggplot2)
+latidos <- read.csv("latidos_cardiacos.csv", header = TRUE)
+latidos
+mean(latidos$latidos)
+sd(latidos$latidos)
+
+h1 <- ggplot(latidos, aes(latidos))
+h1 + geom_histogram()
