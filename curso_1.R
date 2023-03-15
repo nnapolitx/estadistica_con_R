@@ -75,3 +75,40 @@ onlyLecturer
 LecturersThatDrinkLeast <- onlyLecturer[onlyLecturer$alcohol <= 15,]
 LecturersThatDrinkLeast
 # 3.8 Transform data
+satisfactionData <- read.csv("Honeymoon_Period.csv")
+head(satisfactionData)
+
+# Esta data frame la podemos a transformar a un formato long usando
+# la función stack.
+satisfy_Stacked <- stack(satisfactionData,
+                         select = c("Satisfaction_Base",
+                                    "Satisfaction_6_Months",
+                                    "Satisfaction_12_Months",
+                                    "Satisfaction_18_Months"))
+colnames(satisfy_Stacked) <- c("Values", "SatisfType")
+# cambiamos los encabezados
+head(satisfy_Stacked)
+
+# Otra manera de transformar datos a formato long es usando
+# la función melt. Para ello necesitamos cargar la librería reshape.
+library(reshape)
+
+restructData <- melt(satisfactionData,
+                     id = c("Person", "Gender"),
+                     measured = c("Satisfaction_Base",
+                                  "Satisfaction_6_Months",
+                                  "Satisfaction_12_Months",
+                                  "Satisfaction_18_Months"))
+colnames(restructData)[3:4] <- c("SatisfType", "Values") #Change labels
+
+head(restructData)
+# Use the order() method to reorder data
+orderedData <- restructData[order(restructData$Person),]
+orderedData
+
+# Convert back to wide format data using cast method
+# newData <- cast(longData, variables_coded_within_a_single_column
+# ~ variables_coded_across_many_columns, value = "outcome_variable")
+
+wideData <- cast(restructData, Person + Gender ~ SatisfType, value = "Values")
+head(wideData)
